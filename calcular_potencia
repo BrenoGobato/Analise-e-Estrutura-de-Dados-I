@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int potencia(int x, int n){
+    int res;
+    if(n == 0)
+        return 1;
+    else if(n == 1)
+        return x;
+    else
+        return x * potencia(x, n - 1);
+}
+
+int main(){
+    int base, pot;
+
+    printf("Digite um numero que voce deseja elevar: ");
+    scanf("%d", &base);
+    printf("Digite um numero que elevara a base: ");
+    scanf("%d", &pot);
+
+    printf("%d elevado a %d eh igual a: %d", base, pot, potencia(base, pot));
+
+    return 0;
+}
