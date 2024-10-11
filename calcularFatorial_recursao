@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int calcularFatorial(int x){
+    if(x == 0 || x == 1)
+        return 1;
+    else{
+        return x * calcularFatorial(x - 1);
+    }
+
+}
+
+int main(){
+    int n;
+
+    printf("Digite um numero maior que zero: ");
+    scanf("%d", &n);
+
+    printf("Fatorial de %d: %d\n", n, calcularFatorial (n));
+
+    return 0;
+}
