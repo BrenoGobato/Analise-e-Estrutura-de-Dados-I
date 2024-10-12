@@ -16,7 +16,7 @@ int main(){
 
     printf("Digite um numero que voce deseja elevar: ");
     scanf("%d", &base);
-    printf("Digite um numero que elevara a base: ");
+    printf("Digite um numero para a potencia: ");
     scanf("%d", &pot);
 
     printf("%d elevado a %d eh igual a: %d", base, pot, potencia(base, pot));
