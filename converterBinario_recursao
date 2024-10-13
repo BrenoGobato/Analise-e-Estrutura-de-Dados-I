@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void converterBinario(int n){
+    if(n == 0)
+        printf("%d", n);
+    else{
+        converterBinario(n/2);
+        printf("%d", n%2);
+    }
+}
+
+int main(){
+    int n;
+    printf("Digite um numero decimal para ser convertido em binario: ");
+    scanf("%d", &n);
+
+    converterBinario(n);
+
+    return 0;
+}
