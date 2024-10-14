@@ -1,0 +1,158 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+//**************************************JOGO DA VELHA**************************************//
+
+//VARIAVEIS GLOBAIS
+char jogo[3][3];
+int l, c;
+
+//PROCEDIMENTO PARA INICIALIZAR AS POSIÇÕES DA MATRIZ
+void inicializarMatriz(){
+    for(l = 0; l < 3; l++){
+        for(c = 0; c < 3; c++){
+            jogo[l][c] = ' ';
+        }
+    }
+}
+
+//PROCEDIMENTO PARA IMPRIMIR O JOGO NA TELA
+void imprimir() {
+    printf("******* Jogo da Velha *******");
+    printf("\n\n\t 0   1   2\n\n");
+    for (l = 0; l < 3; l++) {
+        printf("\t");
+        for (c = 0; c < 3; c++) {
+            printf(" %c ", jogo[l][c]);
+            if (c < 2) printf("|");
+        }
+        printf("   %d\n", l);
+        if (l < 2) printf("\t-----------\n");
+    }
+}
+
+
+//FUNÇÃO PARA VERIFICAR LINHA
+int ganhouLinha(int l, char jogada){
+    if(jogo[l][0] == jogada && jogo[l][1] == jogada && jogo[l][2] == jogada)
+        return 1;
+    else
+        return 0;
+}
+
+//VERIFICA SE ALGUM DOS JOGADORES GANHOU POR LINHA
+int ganhouPorLinhas(char jogada){
+    int ganhou = 0;
+    for(l = 0; l<3; l++){
+        ganhou += ganhouLinha(l, jogada);
+    }
+    return ganhou;
+}
+
+//FUNÇÃO PARA VERIFICAR COLUNA
+int ganhouColuna(int c, char jogada){
+    if(jogo[0][c] == jogada && jogo[1][c] == jogada && jogo[2][c] == jogada)
+        return 1;
+    else
+        return 0;
+}
+
+//VERIFICA SE ALGUM DOS JOGADORES GANHOU POR COLUNA
+int ganhouPorColunas(char jogada){
+    int ganhou = 0;
+    for(c = 0; c<3; c++){
+        ganhou += ganhouColuna(c, jogada);
+    }
+    return ganhou;
+}
+//PROCEDIMENTO PARA VERIFICAR VITORIA NA DIAGONAL PRINCIPAL
+int ganhouDiagonalP(char jogada){
+    if(jogo[0][0] == jogada && jogo[1][1] == jogada && jogo[2][2] == jogada)
+        return 1;
+    else
+        return 0;
+}
+
+//PROCEDIMENTO PARA VERIFICAR VITORIA NA DIAGONAL SECUNDARIA
+int ganhouDiagonalS(char jogada) {
+    if (jogo[0][2] == jogada && jogo[1][1] == jogada && jogo[2][0] == jogada)  // Correção nos índices
+        return 1;
+    else
+        return 0;
+}
+
+
+//FUNÇÃO PARA DIZER SE JOGADA É VALIDA OU NÃO
+int funcaoValida(int l, int c){
+    if(l >= 0 && l < 3 && c >= 0 && c < 3 && jogo[l][c] == ' ')
+        return 1;
+    else
+        return 0;
+}
+
+//PROCEDIMENTO PARA LER AS COORDENADAS DO JOGADOR
+void lerCoord(char jogador){
+    int linha, coluna;
+
+    printf("Digite Linha e Coluna que deseja jogar: ");
+    scanf("%d %d", &linha, &coluna);
+
+    while(funcaoValida(linha, coluna) == 0){
+        printf("Coordenadas Invalida! Digite Linha e Coluna que deseja jogar: ");
+        scanf("%d %d", &linha, &coluna);
+    }
+    jogo[linha][coluna] = jogador;
+}
+
+//FUNÇÃO QUE RETORNA A QUANTIDADE DE POSIÇÕES VAZIAS
+int quantVazias() {
+    int quantidade = 0;
+    for (l = 0; l < 3; l++) {
+        for (c = 0; c < 3; c++) {
+            if (jogo[l][c] == ' ')  // Verifica sem alterar as posições
+                quantidade++;
+        }
+    }
+    return quantidade;
+}
+
+//PROCEDIMENTO JOGAR COM O LOOP PRINCIPAL DO JOGO
+void jogar() {
+    int jogador = 1;
+    char jogador1 = 'X', jogador2 = '0';
+    int vitoria = 0;  // Indica se houve vitória
+
+    do {
+        imprimir();
+        if (jogador == 1) {
+            lerCoord(jogador1);
+            vitoria = ganhouPorLinhas(jogador1) || ganhouPorColunas(jogador1) ||
+                      ganhouDiagonalP(jogador1) || ganhouDiagonalS(jogador1);
+            jogador = 2;  // Alterna para o jogador 2
+        } else {
+            lerCoord(jogador2);
+            vitoria = ganhouPorLinhas(jogador2) || ganhouPorColunas(jogador2) ||
+                      ganhouDiagonalP(jogador2) || ganhouDiagonalS(jogador2);
+            jogador = 1;  // Alterna para o jogador 1
+        }
+    } while (!vitoria && quantVazias() > 0);
+
+    if (vitoria) {
+        printf("\nParabens, Jogador %d! Voce ganhou!\n", jogador == 1 ? 2 : 1);
+    } else {
+        printf("\nDeu velha!!!\n");
+    }
+}
+
+int main() {
+    int opcao;
+    do {
+        inicializarMatriz();
+        jogar();
+        printf("\n\nDigite 1 para jogar novamente: ");
+        scanf("%d", &opcao);
+        system("clear || cls");  // Limpa a tela (Windows: cls, Linux/Mac: clear)
+    } while (opcao == 1);
+
+    return 0;
+}
