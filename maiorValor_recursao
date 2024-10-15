@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 int maiorValor(int v[], int tamanho){
-    if(tamanho == 0)
+    if(tamanho == 1)
         return v[0];
     else{
         int x;
