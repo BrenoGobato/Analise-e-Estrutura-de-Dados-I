@@ -1,0 +1,37 @@
+//ALOCAR UMA MATRIZ DINAMICA
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main(){
+
+    int **matriz, i, j, qtd_linhas, qtd_colunas;
+
+    printf("Digite a quantidade de linhas que tera sua matriz: ");
+    scanf("%d", &qtd_linhas);
+    printf("Digite a quantidade de colunas que tera sua matriz: ");
+    scanf("%d", &qtd_colunas);
+
+    matriz = malloc(qtd_linhas * sizeof(int*));
+
+    for(i = 0; i<qtd_linhas; i++){
+        matriz[i] = malloc(qtd_colunas * sizeof(int));
+    }
+
+    for(i = 0; i<qtd_linhas; i++){
+        for(j = 0; j<qtd_colunas; j++){
+            printf("Digite um valor para a linha %d e coluna %d: ", i, j);
+            scanf("%d", &matriz[i][j]);
+        }
+    }
+
+    for(i = 0; i<qtd_linhas; i++){
+        for(j = 0; j<qtd_colunas; j++){
+            printf("%d ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
